@@ -1,0 +1,27 @@
+<h1  mat-dialog-title>Registrar asignación</h1>
+    <mat-dialog-content>
+        <mat-form-field>
+            <span class="col-md-12"><input matInput [(ngModel)]="i.Id_Seguimiento" class="col-md-8" placeholder="Id_Seguimiento"></span>
+        </mat-form-field>
+        <mat-form-field>
+            <span class="col-md-12">
+                <input matInput [(ngModel)]="i.Id_Paciente" class="col-md-8" placeholder="Id_Paciente">
+            </span>
+        </mat-form-field>
+        <div *ngIf="_type==0">
+            <select class="form-select" [(ngModel)]="i.Id_Doctor">
+                <option *ngFor="let n of this.l" [value]="n.Id_Doctor" class="dropdown-toggle" >{{n.Nombre_Completo}}</option>
+            </select>
+        </div>
+        <div *ngIf="_type==1">
+            <select class="form-select" [(ngModel)]="i.Id_Paciente">
+                <option *ngFor="let n of this.l" [value]="n.Id_Paciente" class="dropdown-toggle" >{{n.Nombre_Completo}}</option>
+            </select>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="flexCheckChecked" [(ngModel)]="i.Estado" required value="Asistencia">
+        </div>
+    </mat-dialog-content>
+<mat-dialog-actions>
+    <button  mat-raised-button (click)="closeMe()">Guardar</button>
+</mat-dialog-actions>

@@ -1,0 +1,55 @@
+<div class="container align-items-center col-md-10">
+    <fieldset class="form-group table-bordered p-0" *ngIf="d!=undefined">
+        <legend>Registro de doctores</legend>
+        <span class="col-md-12 p-0">            
+            <mat-form-field class="col-md-12 p-0">
+                <input matInput placeholder="Input" [(ngModel)]="d.Id_Doctor" class="col-md-8" placeholder="Codigo de doctor" disabled required minlength="1" maxlength="8">
+            </mat-form-field>
+        </span>
+        <span class="col-md-12 p-0">
+            <mat-form-field>
+                <input matInput [(ngModel)]="d.Nombre_Completo" class="col-md-8" placeholder="Nombre completo" required minlength="20" maxlength="150">
+            </mat-form-field>
+        </span>
+        <span class="col-md-12 p-0">
+            <mat-form-field>
+                <input matInput [(ngModel)]="d.Numero_Credencial" class="col-md-8" placeholder="Numero de Credencial" required minlength="6" maxlength="8">
+            </mat-form-field>
+        </span>
+        <span class="col-md-12 p-0">
+            <mat-form-field>
+                <input matInput [(ngModel)]="d.Especialidad" class="col-md-8" placeholder="Especialidad" required minlength="15" maxlength="150">
+            </mat-form-field>
+        </span>
+        <span class="col-md-12 p-0">
+            <mat-form-field>
+                <input matInput [(ngModel)]="d.Hospital_Adscrito" class="col-md-8" placeholder="Hospital_Adscrito" required minlength="10" maxlength="150" >
+            </mat-form-field>
+        </span>
+        <div *ngFor="let q of this.l$">
+            <li>{{q.Id_Paciente}}</li>
+            <li>{{q.Nombre_Completo}}</li>
+        </div>
+        <table class="table table-striped table-bordered col-md-8" *ngIf="d!=undefined">
+            <thead>
+                <tr><legend>Registro de asignación de Pacientes</legend></tr>
+                <tr class="table table-striped table-bordered col-md-8">
+                    <td>Id</td>
+                    <td>Pacientes</td>
+                    <td><button mat-raised-button (click)="start()" color="primary">+</button></td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table table-striped table-bordered col-md-8" *ngFor="let n of p$.ControlIntegral|async">
+                    <td>{{ n.Id_Paciente }}</td>
+                    <td>{{ n.Nombre_Completo }}</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row align-items-start col-md-10">
+            <button (click)="Guardar()" class="btn btn-info">Guardar</button>
+            <a routerLink="/doctores" class="btn btn-info">Volver</a>            
+        </div>
+    </fieldset>
+</div>

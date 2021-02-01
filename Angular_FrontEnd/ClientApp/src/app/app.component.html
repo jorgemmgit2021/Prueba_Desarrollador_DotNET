@@ -1,0 +1,10 @@
+<app-nav-menu></app-nav-menu>  
+<div layout-fill layout="column" layout-align="center none">
+  <div class="container">
+    <div class="z-depth center" flex="50">
+      <div id="content" class="" [@routerAnimations]="prepareRouteTransition(outlet)">
+        <router-outlet #outlet="outlet"></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
