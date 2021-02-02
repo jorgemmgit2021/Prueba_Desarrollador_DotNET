@@ -1,6 +1,6 @@
 {
   "name": "angular_frontend",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -31,10 +31,14 @@
     "oidc-client": "^1.9.1",
     "popper.js": "^1.16.0",
     "rxjs": "^6.5.3",
-    "zone.js": "0.9.1"
+    "zone.js": "0.9.1",
+    "node-sass": "^4.12.0",
+    "protractor": "~5.4.2",
+    "ts-node": "~8.4.1",
+    "tslint": "~5.20.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.803.26",
+    "@angular-devkit/build-angular": "^0.803.29",
     "@angular/cli": "^8.3.26",
     "@angular/compiler-cli": "^8.2.14",
     "@angular/language-service": "^8.2.12",
@@ -56,5 +60,17 @@
     "protractor": "~5.4.2",
     "ts-node": "~8.4.1",
     "tslint": "~5.20.0"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorgemm2021/Prueba_Tecnica.git"
+  },
+  "author": "Jorge Martinez Maldonado",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorgemm2021/Prueba_Tecnica/issues"
+  },
+  "homepage": "https://github.com/jorgemm2021/Prueba_Tecnica#readme"
 }

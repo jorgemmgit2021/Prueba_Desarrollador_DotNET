@@ -161,8 +161,6 @@ namespace BLL_BackEnd
                 ValidationErrors.Add("Nombre del usuario es requerido", "Nombre");
             else if (entity.Numero_Credencial < 99999 || entity.Numero_Credencial> 99999999)
                 ValidationErrors.Add("Longitud del numero de credencial incorrecto");
-            else if (entity.Control_Integral.Count < 1)
-                ValidationErrors.Add("El registro de Doctores debe incluir uno o más pacientes");
             return ValidationErrors.Count < 1;
         }
 

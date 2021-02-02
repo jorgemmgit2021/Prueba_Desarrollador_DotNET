@@ -1,22 +1,21 @@
 <h1  mat-dialog-title>Registrar asignación</h1>
-    <mat-dialog-content>
+    <mat-dialog-content class="example-container" >
         <mat-form-field>
             <span class="col-md-12"><input matInput [(ngModel)]="i.Id_Seguimiento" class="col-md-8" placeholder="Id_Seguimiento"></span>
-        </mat-form-field>
-        <mat-form-field>
-            <span class="col-md-12">
-                <input matInput [(ngModel)]="i.Id_Paciente" class="col-md-8" placeholder="Id_Paciente">
-            </span>
-        </mat-form-field>
-        <div *ngIf="_type==0">
+        </mat-form-field>        
+        <div *ngIf="this._type===0">            
+            Paciente
+            <select class="form-select" [(ngModel)]="i.Id_Paciente">
+                <option *ngFor="let n of this.t" [value]="n.Id_Paciente" class="dropdown-toggle" >{{n.Nombre_Completo}}</option>
+            </select>
+            <input type="hidden" value="0" [(ngModel)]="i.Id_Doctor">
+        </div>
+        <div *ngIf="this._type===1">
+            Doctor
             <select class="form-select" [(ngModel)]="i.Id_Doctor">
                 <option *ngFor="let n of this.l" [value]="n.Id_Doctor" class="dropdown-toggle" >{{n.Nombre_Completo}}</option>
             </select>
-        </div>
-        <div *ngIf="_type==1">
-            <select class="form-select" [(ngModel)]="i.Id_Paciente">
-                <option *ngFor="let n of this.l" [value]="n.Id_Paciente" class="dropdown-toggle" >{{n.Nombre_Completo}}</option>
-            </select>
+            <input type="hidden" value="0" [(ngModel)]="i.Id_Paciente">            
         </div>
         <div class="form-check">
             <input class="form-check-input" type="checkbox" id="flexCheckChecked" [(ngModel)]="i.Estado" required value="Asistencia">

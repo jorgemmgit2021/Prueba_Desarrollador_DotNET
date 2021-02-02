@@ -153,9 +153,6 @@ namespace BLL_BackEnd{
                 ValidationErrors.Add("Nombre de usuario es requerido.", "Nombre_Completo");
             else if (entity.Numero_SeguroSocial.Length<6 || string.IsNullOrEmpty(entity.Numero_SeguroSocial))
                 ValidationErrors.Add("Longitud del número de seguro social incorrecta");
-            else if (entity.Control_Integral.Count < 1)
-                ValidationErrors.Add("El registro de Pacientes debe incluir uno o más doctores");
-
             return ValidationErrors.Count < 1;
         }
 

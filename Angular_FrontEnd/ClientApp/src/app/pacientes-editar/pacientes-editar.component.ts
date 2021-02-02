@@ -22,7 +22,7 @@ import { MatSnackBar} from '@angular/material';
 export class PacientesEditarComponent implements OnInit {
   public c: Pacientes;
   public d$: Observable<Doctores[]>;
-  public l$: Observable<Doctores[]>;
+  public l$: Doctores[];
   public i:ControlIntegral;
   public notyfy:boolean;
   public toNotify:string;
@@ -34,7 +34,7 @@ export class PacientesEditarComponent implements OnInit {
     this.toNotify='';
   }
   initType(){
-      this.c = { Id_Paciente:0,Nombre_Completo:'',Numero_Seguro_Social:'',Codigo_Postal:'',Telefono_Contacto:'', Control_Integral:{} as ControlIntegral[] };
+      this.c = { Id_Paciente:0,Nombre_Completo:'',Numero_Seguro_Social:'',Codigo_Postal:'',Telefono_Contacto:'', Control_Integral:[] };
       return this.c;
   }
   initSub(): ControlIntegral {
@@ -43,36 +43,42 @@ export class PacientesEditarComponent implements OnInit {
   }
   start():void{
     this.i.Id_Paciente = this.c.Id_Paciente;
-    this.dialog.open(ModalDialogComponent, {data:{ _i:this.i, _list: this.l$, _type:1 }});
+    this.listService.getAll().subscribe(data=>{this.l$=data;console.log(data);console.log('lst g')});
+    this.dialog.open(ModalDialogComponent, {data:{ _i:this.i, _listD: this.l$, _listP:this.l$, _type:1 }});   
     this.dialog.afterAllClosed.subscribe(x=>this.end(x));
   }
   end(x):void{
-    let _cont:ControlIntegral[] =this.c.Control_Integral!=undefined?this.c.Control_Integral:[]; 
-    let _x:ControlIntegral = { Id_Seguimiento: this.i.Id_Seguimiento, Id_Paciente:this.i.Id_Paciente, Id_Doctor:Number(this.i.Id_Doctor),Fecha:this.i.Fecha, Estado:this.i.Estado };
-    if(this.c.Control_Integral.length==undefined)this.c.Control_Integral=[];
+    let _cont:ControlIntegral[] =this.c.Control_Integral||[];
+    let _x:ControlIntegral = { Id_Seguimiento: this.i.Id_Seguimiento, Id_Paciente:Number(this.i.Id_Paciente), Id_Doctor:Number(this.i.Id_Doctor),Fecha:this.i.Fecha, Estado:this.i.Estado };    
     let u = this.c.Control_Integral.find(function(indx){ return indx.Id_Doctor== _x.Id_Doctor && indx.Id_Paciente==_x.Id_Paciente; });
     if(u==undefined){
-      if(_cont.unshift(_x)!=0)
-      this.d$.subscribe((data)=>{data.push({ 
-        Id_Doctor:_x.Id_Doctor, Nombre_Completo:"Adicionado",Especialidad:"",Numero_Credencial:0,Hospital_Adscrito:"",Control_Integral:[] 
-      });console.log(data)});
+      _cont.unshift(_x)
       _x = null;
     }
     this.c.Control_Integral = _cont;
     _cont = null;
   }
   ngOnInit(){
-    var _id = Number.parseInt(this.route.snapshot.paramMap.get('id'));
+    var _id = Number.parseInt(this.route.snapshot.paramMap.get('id'));    
     if(_id!=0)this.service.Editar(_id).subscribe((data:Pacientes)=>{ this.c = data; console.log(this.c);});
     else this.c = this.initType();
-      this.d$ = _id!=0? this.listService.getBy(_id):{} as Observable<Doctores[]>;
-      this.l$ = this.listService.getAll();
+    this.d$ = this.listService.getBy(_id);
+    
+    // .toPromise().then(data=>{
+    //   this.d$=
+    //   data.length<1?[]:
+    //   data
+    // });
+    console.log(this.d$);
+    console.log('this.d$');
+    this.listService.getAll().toPromise().then(data=>{this.l$=data;console.log(data);console.log('lst g')});
   }
   public getPacientes(id){
     this.service.Editar(id).subscribe((data:Pacientes)=>{ if(this.c!=undefined) this.c = data; });
     console.log(this.c);
   }
   Guardar():void{
+    debugger
     this.toNotify = '';
     this.notyfy = null;
     let config = new MatSnackBarConfig();
@@ -80,13 +86,9 @@ export class PacientesEditarComponent implements OnInit {
       this.toNotify= `Registro de Paciente completo`;
       this.snackBar.open(this.toNotify,'Cerrar', config);
     },error=>{
-      // debugger
-        this.toNotify= "Errores en los contenidos del formulario";//`Unable to save Pacientes: ${error.message}`;
-        // config.panelClass=['background-red'];
-        // config.announcementMessage="Announcement";
+        this.toNotify= "Errores en los contenidos del formulario";
         this.snackBar.open(this.toNotify,'Cerrar', config);
       });
       this.notyfy=true;
-      // this.router.navigate(['/pacientes']);
   }
 }
