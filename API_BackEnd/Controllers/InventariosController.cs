@@ -16,25 +16,22 @@ using System.Threading.Tasks;
 
 namespace API_BackEnd.Controllers
 {
-    [ServiceFilter(typeof(ApiExceptionFilter))]    
     [Route("api/[controller]")]
     [ApiController]
-    public class PacientesController : ControllerBase
-    {
+    public class InventariosController : ControllerBase{
         PruebaContext Context;
-        PacientesRepository Repository;
+        InventariosRepository Repository;
 
         IServiceProvider serviceProvider;
         IConfiguration Configuration;
-        private ILogger<PacientesController> Logger;
+        private ILogger<InventariosController> Logger;
 
         private IWebHostEnvironment HostingEnv;
 
-
-        public PacientesController(PruebaContext context, PacientesRepository repository,
+        public InventariosController(PruebaContext context, InventariosRepository repository,
             IServiceProvider svcProvider,
             IConfiguration config,
-            ILogger<PacientesController> logger,
+            ILogger<InventariosController> logger,
             IWebHostEnvironment env
             ){
             Context = context;
@@ -45,55 +42,53 @@ namespace API_BackEnd.Controllers
             HostingEnv = env;
         }
 
-        // GET: api/<PacientesController>
+        // GET: api/<InventariosController>
         [HttpGet]
-        public async Task<List<Pacientes>> Get(){
-            return await Context.Pacientes.OrderBy(p => p.Nombre_Completo).Include(p=>p.Control_Integral).ToListAsync();
-        }
-
-        [HttpGet("GetById/{id}")]
-        public async Task<List<Pacientes>> GetBy(int id){
-            var bhu = Context.Pacientes.Where(i => i.Control_Integral.Where(d => d.Id_Doctor == id).Count() > 0).OrderBy(e => e.Nombre_Completo).ToList();
-            return await Context.Pacientes.Where(t => t.Control_Integral.Where(i => i.Id_Doctor == id).Count() > 0).OrderBy(p => p.Nombre_Completo).ToListAsync();
+        public async Task<List<Inventarios>> Get(){
+//.OrderBy(i => i.Descripcion)
+            return await Context.Inventarios.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<Pacientes> Get(int id)
-        {
-            return await Context.Pacientes.Include(p=>p.Control_Integral).FirstOrDefaultAsync(p=>p.Id_Paciente == id);
+        public async Task<Inventarios> Get(int id){
+            return await Context.Inventarios.FirstOrDefaultAsync(i => i.IdItem == id);
         }
 
-        // POST api/<PacientesController>
-        //[HttpPost]
-        //public async Task<Pacientes> Post([FromBody] int id){
-        //    return await Context.Pacientes.FirstOrDefaultAsync(p => p.Id_Paciente == id);
-        //}
+        [HttpGet("GetAllStockMin")]
+        public async Task<List<Inventarios>> GetAllStockMin(){
+            return await Repository.GetAllStockMin();
+        }
 
+        [HttpGet("GetAllVentasXItem")]
+        public List<dynamic> GetAllVentasXItem(int periodo){
+            return Repository.GetAllVentasXItem(periodo);
+        }
+        
         [HttpPost]
-        public async Task<Pacientes> SavePacientes([FromBody] Pacientes paciente){
+        public async Task<Inventarios> SaveInventarios([FromBody] Inventarios cliente){
             if (!ModelState.IsValid)
                 throw new ApiException("Model binding failed.", 500);
 
-            if (!Repository.Validate(paciente))
+            if (!Repository.Validate(cliente))
                 throw new ApiException(Repository.ErrorMessage, 500, Repository.ValidationErrors);
 
-            var album = await Repository.SavePacientes(paciente);
+            var album = await Repository.SaveInventarios(cliente);
             if (album == null)
                 throw new ApiException(Repository.ErrorMessage, 500);
 
             return album;
         }
 
-        // PUT api/<PacientesController>/5
+        // PUT api/<InventariosController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<PacientesController>/5
+        // DELETE api/<InventariosController>/5
         [HttpDelete("{id}")]
         public async Task<bool> Delete(int id){
-            return await Repository.DeletePacientes(id);
+            return await Repository.DeleteInventarios(id);
         }
 
     }

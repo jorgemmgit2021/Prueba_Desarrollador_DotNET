@@ -18,23 +18,22 @@ namespace API_BackEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DoctoresController : ControllerBase
-    {
+    public class ClientesController : ControllerBase{
         PruebaContext Context;
-        DoctoresRepository Repository;
+        ClientesRepository Repository;
 
         IServiceProvider serviceProvider;
         IConfiguration Configuration;
-        private ILogger<DoctoresController> Logger;
+        private ILogger<ClientesController> Logger;
 
         private IWebHostEnvironment HostingEnv;
 
-        public DoctoresController(PruebaContext context, DoctoresRepository repository,
+        public ClientesController(PruebaContext context, ClientesRepository repository,
             IServiceProvider svcProvider,
             IConfiguration config,
-            ILogger<DoctoresController> logger,
+            ILogger<ClientesController> logger,
             IWebHostEnvironment env
-            ) {
+            ){
             Context = context;
             Repository = repository;
             serviceProvider = svcProvider;
@@ -43,55 +42,52 @@ namespace API_BackEnd.Controllers
             HostingEnv = env;
         }
 
-        // GET: api/<DoctoresController>
+        // GET: api/<ClientesController>
         [HttpGet]
-        public async Task<List<Doctores>> Get()
-        {
-            return await Context.Doctores.OrderBy(d => d.Nombre_Completo).ToListAsync();
+        public async Task<List<Clientes>> GetAll(){
+            return await Context.Clientes.OrderBy(c => c.NombreCompleto).ToListAsync();
         }
 
-        [HttpGet("GetById/{id}")]
-        public async Task<List<Doctores>> GetBy(int id){
-            return await Context.Doctores.Where(t => t.Control_Integral.Where(i=>i.Id_Paciente==id).Count()>0).OrderBy(d=>d.Nombre_Completo).ToListAsync();
+        [HttpGet("Get/{identificacion}")]
+        public async Task<Clientes> Get(int identificacion){
+            return await Context.Clientes.FirstOrDefaultAsync(c => c.NumeroIdentificacion == identificacion);
         }
 
-        [HttpGet("{id}")]
-        public async Task<Doctores> Get(int id){
-            return await Context.Doctores.Include(c=>c.Control_Integral).FirstOrDefaultAsync(p => p.Id_Doctor == id);
+        [HttpGet("GetBy/{id}")]
+        public async Task<List<Clientes>> GetBy(int Edad, DateTime fchIni, DateTime fchFnl){
+            return await Repository.GetClientesBy(Edad, fchIni, fchFnl);
         }
 
-        // POST api/<DoctoresController>
-        //[HttpPost]
-        //public async Task<Doctores> Post([FromBody] int id){
-        //    return await Context.Doctores.FirstOrDefaultAsync(p => p.Id_Paciente == id);
-        //}
+        [HttpGet("GetDateOfPurchase")]
+        public List<dynamic> GetDateOfPurchase(){
+            return Repository.GetDateOfPurchase();
+        }
 
         [HttpPost]
-        public async Task<Doctores> SaveDoctores([FromBody] Doctores doctor)
-        {
+        public async Task<Clientes> SaveClientes([FromBody] Clientes cliente){
             if (!ModelState.IsValid)
                 throw new ApiException("Model binding failed.", 500);
 
-            if (!Repository.Validate(doctor))
+            if (!Repository.Validate(cliente))
                 throw new ApiException(Repository.ErrorMessage, 500, Repository.ValidationErrors);
 
-            var album = await Repository.SaveDoctores(doctor);
+            var album = await Repository.SaveClientes(cliente);
             if (album == null)
                 throw new ApiException(Repository.ErrorMessage, 500);
 
             return album;
         }
 
-        // PUT api/<DoctoresController>/5
+        // PUT api/<ClientesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<DoctoresController>/5
+        // DELETE api/<ClientesController>/5
         [HttpDelete("{id}")]
         public async Task<bool> Delete(int id){
-            return await Repository.DeleteDoctores(id);
+            return await Repository.DeleteClientes(id);
         }
 
     }

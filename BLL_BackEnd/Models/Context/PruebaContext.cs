@@ -14,9 +14,11 @@ namespace BLL_BackEnd.Models.Context
 
         }
 
-        public DbSet<Pacientes> Pacientes { get; set; }
-        public DbSet<Doctores> Doctores { get; set; }
-        public DbSet<Control_Integral> Control_Integral { get; set; }
+        public DbSet<Catalogos> Catalogos { get; set; }
+        public DbSet<Clientes> Clientes { get; set; }
+        public DbSet<Inventarios> Inventarios { get; set; }
+        public DbSet<Movimientos> Movimientos { get; set; }
+        public DbSet<Detalle_Movimientos> Detalle_Movimientos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder){
             base.OnModelCreating(builder);

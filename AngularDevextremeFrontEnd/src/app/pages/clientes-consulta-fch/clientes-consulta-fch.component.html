@@ -1,0 +1,87 @@
+<div class="form">
+    <form>
+        <dx-form id="form" [formData]="_ClientesBusqueda">
+        <dxi-item dataField="Id" editorType="dxTextBox"
+        [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Id (Opcional)' }">
+        </dxi-item>
+        <dxi-item dataField="Edad" editorType="dxTextBox"
+        [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Edad' }">
+        <dxi-validation-rule type="required" message="Edad es obligatorio"></dxi-validation-rule>
+        <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+        <dxi-item dataField="FchIni" editorType="dxDateBox" 
+        [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Fecha inicial', width: '30%' }">
+        <dxi-validation-rule type="required" message="Fecha inicial es obligatorio"></dxi-validation-rule>
+        <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+        <dxi-item dataField="FchFnl" editorType="dxDateBox" 
+        [editorOptions]="{ stylingMode: 'outlined', placeholder: 'Fecha final', width: '30%' }">
+        <dxi-validation-rule type="required" message="Fecha final es obligatorio"></dxi-validation-rule>
+        <dxo-label [visible]="false"></dxo-label>
+        </dxi-item>
+        <dxi-item itemType="group" [colCount]="1">
+            <dx-button
+            stylingMode="contained"
+            text="Buscar"
+            type="info"
+            class="button-info"
+            [useSubmitBehavior]="false"
+            [width]="120"
+            (onClick)="getByParams($event)"
+            >
+        </dx-button>
+        <dx-button
+        class="button-info"
+        text="Details"
+        [width]="120"
+        (onClick)="getByParams($event)">
+    </dx-button>
+        </dxi-item>
+    </dx-form>
+    </form>        
+    <div id="app-container">
+            <dx-item></dx-item>
+            <dx-data-grid id="dataGrid"
+              [dataSource]="_Clientes"
+              keyExpr="Id_Cliente"
+              [allowColumnResizing]="true"
+              [columnAutoWidth]="true"
+              [allowColumnReordering]="true">
+              <dxi-column dataField="Id_Cliente"></dxi-column>
+              <dxi-column dataField="Numero_identificacion"></dxi-column>
+              <dxi-column dataField="Tipo_Identificacion"></dxi-column>
+              <dxi-column dataField="Nombre_completo"></dxi-column>
+              <dxi-column dataField="Fecha_nacimiento"></dxi-column>
+              <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+              <dxo-filter-row [visible]="true"></dxo-filter-row>
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxo-selection mode="single"></dxo-selection>
+              <dxo-summary>
+                <dxi-group-item
+                  summaryType="count">
+                </dxi-group-item>
+              </dxo-summary>
+              <dxo-editing
+                mode="popup"
+                [allowUpdating]="true"
+                [allowDeleting]="true"
+                [allowAdding]="true">
+              </dxo-editing>
+              <!-- <dxo-master-detail
+                [enabled]="true"
+                [template]="'employee-info'">
+              </dxo-master-detail>
+              <div *dxTemplate="let employee of 'employee-info'">
+                <img class="employee-photo" [src]="employee.data.Photo">
+                <p class="employee-notes">{{ employee.data.Notes }}</p>
+              </div>
+              <dxo-export [enabled]="true"></dxo-export> -->
+            </dx-data-grid>
+            <!-- <p id="selected-employee" *ngIf="selectedEmployee">
+              Selected employee: {{ selectedEmployee.FullName }}
+            </p> -->
+        </div>
+
+</div>

@@ -1,0 +1,96 @@
+<div class="form">
+  <dx-button [useSubmitBehavior]="false"
+      class="button-info"
+      text="Informacion de cliente"
+      (onClick)="showInfo(cliente)">
+  </dx-button>
+  <dx-popup
+      [width]="900"
+      [height]="800"
+      [showTitle]="true"
+      title="Clientes"
+      [dragEnabled]="false"
+      [closeOnOutsideClick]="false"
+      [(visible)]="popupVisible">
+      <div *dxTemplate="let data of 'content'">
+        <dxi-item itemType="group" caption="Listado de clientes">
+          <dx-data-grid [dataSource]="_clientes" [showBorders]="true" (onSelectionChanged)="selectionChangedHandler($event)">
+              <dxo-selection mode="single"></dxo-selection>
+              <dxi-column dataField="Id_Cliente" caption="Id Detalle" dataType="number" ></dxi-column>
+              <dxi-column dataField="Numero_identificacion" caption="Identificacion" dataType="number" alignment="left"></dxi-column>
+              <dxi-column dataField="Tipo_Identificacion" caption="Id Tipo" dataType="number" [allowGrouping]="false"></dxi-column>
+              <dxi-column dataField="Nombre_completo" caption="Nombre" dataType="string"></dxi-column>    
+              <dxi-column dataField="Fecha_nacimiento" caption="Fecha" dataType="date"></dxi-column>    
+              <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+              <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+              <dxo-filter-row [visible]="true"></dxo-filter-row>
+              <dxo-search-panel [visible]="true"></dxo-search-panel>
+              <dxo-group-panel [visible]="true"></dxo-group-panel>
+              <dxo-selection mode="single"></dxo-selection>
+              <!-- <dxo-summary>
+                <dxi-group-item summaryType="count">
+                </dxi-group-item>
+              </dxo-summary> -->
+              <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+              </dxo-editing>
+              <!-- <dxo-master-detail
+                [enabled]="true"
+                [template]="'employee-info'">
+              </dxo-master-detail> 
+              <div *dxTemplate="let client of 'Clientes'">                                
+              </div>
+            -->
+              <dxo-export [enabled]="true"></dxo-export>              
+          </dx-data-grid>
+        </dxi-item>                
+      </div>
+  </dx-popup>
+  <form (submit)="onSubmit($event)">
+    <dx-button stylingMode="contained" text="Registrar venta" type="submit" [width]="250" [useSubmitBehavior]="true">
+    </dx-button> 
+    <br>       
+    <dx-form id="form" [formData]="cliente">
+      <dxi-item itemType="group" [colCount]="2">      
+        <dxi-item dataField="Id_Cliente" [visible]="false" editorType="Hidden" [disabled]="true"
+          [editorOptions]="{ stylingMode: 'filled'}" [colCount]="1">
+        </dxi-item> 
+        <dxi-item dataField="Numero_identificacion" editorType="dxTextBox" alignment="left" [disabled]="true"
+        [editorOptions]="{ stylingMode: 'filled', placeholder: 'Identificacion' }" [colCount]="1">
+        </dxi-item> 
+        <dxi-item dataField="Tipo_Identificacion" editorType="Hidden" [visible]="false" [disabled]="true"
+            [editorOptions]="{ stylingMode: 'outlined'}" [colCount]="1">
+        </dxi-item>
+        <dxi-item dataField="Nombre_completo" editorType="dxTextBox" alignment="left" [disabled]="true"
+            [editorOptions]="{ stylingMode: 'filled', placeholder: 'Nombre_completo' }" [colCount]="1">
+        </dxi-item>            
+        <dxi-item dataField="Fecha_nacimiento" editorType="Hidden" [visible]="false" 
+            [editorOptions]="{ stylingMode: 'outlined', width: '100%' }" [colCount]="1">
+        </dxi-item>
+      </dxi-item>
+    <dxi-item itemType="group" caption="Listado de productos en registro" [colCount]="1">
+      <dx-data-grid id="gridContainer" keyExpr="Id" (onSaving)="onSaving($event)" [dataSource]="_datasource" [showBorders]="true" >
+        <dxo-editing mode="row" editRowKey="Id" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
+        </dxo-editing>
+        <!-- <dxi-column dataField="Id_Detalle" caption="Consecutivo" dataType="number" [width]="-1" visible="false"></dxi-column>
+        <dxi-column dataField="Id_Movimiento" caption="Indice" dataType="number" alignment="left" [width]="-1" visible="false"></dxi-column> -->
+        <dxi-column dataField="Id_Item" caption="Producto" [width]="500" dataType="number" [visible]="true"> 
+          <dxo-lookup [dataSource]="_inventario" valueExpr="Id_Item" [displayExpr]="getDisplayExpr"></dxo-lookup>
+        </dxi-column>
+        <dxi-column dataField="Cantidad" caption="Cantidad" dataType="number"></dxi-column>
+        <dxi-column dataField="Total" caption="Total" dataType="number" alignment="left" [visible]="true" ></dxi-column>
+        <dxo-summary>
+          <dxi-total-item
+              column="Cantidad"
+              summaryType="sum">
+          </dxi-total-item>
+          <dxi-total-item
+              column="Total"
+              valueFormat="currency"
+              summaryType="sum">
+            </dxi-total-item>
+        </dxo-summary>
+      </dx-data-grid>      
+    </dxi-item>    
+    </dx-form>
+  </form>
+</div>

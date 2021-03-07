@@ -5,81 +5,138 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace BLL_BackEnd.Models
-{
-    [DebuggerDisplay("{Paciente} {Pacientes.Nombre_Completo}")]
-    public class Pacientes{
+namespace BLL_BackEnd.Models{
+    public class Catalogos{
         [Key]
-        [JsonPropertyName("Id_Paciente")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Paciente")]
-        public int Id_Paciente { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Elemento")]
+        [JsonPropertyName("Id_Elemento")]
+        public int IdElemento { get; set; }
 
-        [JsonPropertyName("Nombre_Completo")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Nombre_Completo")]
-        public string Nombre_Completo { get; set; }
-
-        [JsonPropertyName("Numero_Seguro_Social")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Numero_Seguro_Social")]
-        public string Numero_SeguroSocial { get; set; }
-
-        [JsonPropertyName("Codigo_Postal")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Codigo_Postal")]
-        public string Codigo_Postal { get; set; }
-
-        [JsonPropertyName("Telefono_Contacto")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Telefono_Contacto")]
-        public string Telefono_Contacto { get; set; }
-
-        //public int Id_Seguimiento { get; set; }
-
-        [JsonPropertyName("Control_Integral")]
-        [ForeignKey("Id_Paciente")]
-        public List<Control_Integral> Control_Integral { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Grupo")]
+        [JsonPropertyName("Id_Grupo")]
+        public int IdGrupo { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Descripcion")]
+        [JsonPropertyName("Descripcion")]
+        public string Descripcion { get; set; }
     }
 
-    public class Doctores{
+    public class Clientes{
         [Key]
-        [JsonPropertyName("Id_Doctor")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Doctor")]
-        public int Id_Doctor { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Cliente")]
+        [JsonPropertyName("Id_Cliente")]
+        public int IdCliente { get; set; }
 
-        [JsonPropertyName("Nombre_Completo")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Nombre_Completo")]
-        public string Nombre_Completo { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Numero_identificacion")]
+        [JsonPropertyName("Numero_identificacion")]
+        public int NumeroIdentificacion { get; set; }
 
-        [JsonPropertyName("Especialidad")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Especialidad")]
-        public string Especialidad { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Tipo_Identificacion")]
+        [JsonPropertyName("Tipo_Identificacion")]
+        public int TipoIdentificacion { get; set; }
 
-        [JsonPropertyName("Numero_Credencial")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Numero_Credencial")]
-        public decimal Numero_Credencial { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Nombre_completo")]
+        [JsonPropertyName("Nombre_completo")]
+        public string NombreCompleto { get; set; }
 
-        [JsonPropertyName("Hospital_Adscrito")]
-        [System.ComponentModel.DataAnnotations.Schema.Column("Hospital_Adscrito")]
-        public string Hospital_Adscrito { get; set; }
-        [JsonPropertyName("Control_Integral")]
-        [ForeignKey("Id_Doctor")]
-        public List<Control_Integral> Control_Integral { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Fecha_nacimiento")]
+        [JsonPropertyName("Fecha_nacimiento")]
+        public DateTime FechaNacimiento { get; set; }
     }
 
-    public class Control_Integral{
+    public class Inventarios{
         [Key]
-        [JsonPropertyName("Id_Seguimiento")]
-        public int? Id_Seguimiento { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Item")]        
+        [JsonPropertyName("Id_Item")]
+        public int IdItem { get; set; }
 
-        [JsonPropertyName("Id_Paciente")]
-        [ForeignKey("Id_Paciente")]
-        public int Id_Paciente { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Codigo_item")]
+        [JsonPropertyName("Codigo_item")]
+        public int CodigoItem { get; set; }
 
-        [JsonPropertyName("Id_Doctor")]
-        [ForeignKey("Id_Doctor")]
-        public int Id_Doctor { get; set; }
+        [System.ComponentModel.DataAnnotations.Schema.Column("Descripcion")]
+        [JsonPropertyName("Descripcion")]
+        public string Descripcion { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column("Cantidad_stock")]
+        [JsonPropertyName("Cantidad_stock")]
+        public int CantidadStock { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Stock_minimo")]
+        [JsonPropertyName("Stock_minimo")]
+        public int StockMinimo { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Precio", TypeName = "System.Data.SqlTypes.SqlDouble")]
+        [JsonPropertyName("Precio")]
+        public Double Precio { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Fecha_actualizacion")]
+        [JsonPropertyName("Fecha_actualizacion")]
+        public DateTime FechaActualizacion { get; set; }
+    }
+
+    public class Movimientos {
+        [Key]
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Movimiento")]
+        [JsonPropertyName("Id_Movimiento")]
+        public int Id_Movimiento { get; set; }
+
+        [ForeignKey("Id_Cliente")]
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Cliente")]
+        [JsonPropertyName("Id_Cliente")]
+        public int IdCliente { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Fecha")]
         [JsonPropertyName("Fecha")]
         public DateTime Fecha { get; set; }
 
+        [System.ComponentModel.DataAnnotations.Schema.Column("Total", TypeName = "System.Data.SqlTypes.SqlDouble")]
+        [JsonPropertyName("Total")]
+        public Double Total { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Estado")]
         [JsonPropertyName("Estado")]
         public bool Estado { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Tipo_movimiento")]
+        [ForeignKey("Tipo_movimiento")]
+        [JsonPropertyName("Tipo_movimiento")]
+        public int TipoMovimiento { get; set; }
+
+        [JsonPropertyName("Detalle_Movimiento")]
+        [ForeignKey("Id_Movimiento")]
+        public List<Detalle_Movimientos> Detalle_Movimientos { get; set;}
+    }
+
+    public class Detalle_Movimientos{
+        [Key]
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Detalle")]
+        [JsonPropertyName("Id_Detalle")]
+        public int IdDetalle { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Movimiento")]
+        [ForeignKey("Id_Movimiento")]
+        [JsonPropertyName("Id_Movimiento")]
+        public int Id_Movimiento { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Id_Item")]
+        [ForeignKey("Id_Item")]
+        [JsonPropertyName("Id_Item")]
+        public int IdItem { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Cantidad")]
+        [JsonPropertyName("Cantidad")]
+        public int Cantidad { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.Column("Estado")]
+        [ForeignKey("Estado")]
+        [JsonPropertyName("Estado")]
+        public bool Estado { get; set; }
+    }
+
+    public class Venta { 
+        [JsonPropertyName("cliente")]
+        public Clientes Clientes { get; set; }
+        [JsonPropertyName("movimiento")]
+        public Movimientos Movimientos { get; set; }
     }
 }
