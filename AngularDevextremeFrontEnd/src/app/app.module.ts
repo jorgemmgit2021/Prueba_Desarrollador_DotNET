@@ -49,6 +49,7 @@ import { ClientesConsultaFrecuenciaComponent } from './pages/clientes-consulta-f
     DxBulletModule,
     DxTemplateModule,
     DxTextBoxModule,
+    DxNumberBoxModule,
     MovimientosModule,
     MovimientosConsultaModule,
     HttpClientModule,

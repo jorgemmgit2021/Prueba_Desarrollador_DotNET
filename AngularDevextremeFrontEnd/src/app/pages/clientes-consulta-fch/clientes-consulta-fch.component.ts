@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DxButtonModule, DxDataGridModule, DxFormModule } from 'devextreme-angular';
+import { DxFormModule, DxButtonModule, DxCalendarModule, DxDataGridModule, DxDateBoxModule, DxNumberBoxModule } from 'devextreme-angular';
 import { Clientes } from 'src/app/models/clientes';
 import { ClientesBusqueda } from 'src/app/models/clientes-busqueda';
 import { ClientesService } from 'src/app/services/clientes.service';
@@ -24,16 +24,14 @@ export class ClientesConsultaFchComponent implements OnInit {
   ngOnInit(): void{
     this._ClientesBusqueda = { Id:0, Edad:0, FchIni:new Date(),FchFnl:new Date() };
   }
-
-  // getByParams=e=>{
-    getByParams(e){
+  getByParams=(e)=>{
     let id=this._ClientesBusqueda.Id;
     let Edad=this._ClientesBusqueda.Edad;
     let fchIni:Date=this._ClientesBusqueda.FchIni;
     let fchFnl:Date=this._ClientesBusqueda.FchFnl;
+    if(Edad==0||fchIni==new Date())return;
     this._cService.getByFch(id,Edad,fchIni,fchFnl).toPromise().then(data=>{ this._Clientes = data; });
   }
-
 }
 @NgModule({
   imports: [
@@ -41,7 +39,10 @@ export class ClientesConsultaFchComponent implements OnInit {
     RouterModule,
     DxFormModule,
     DxDataGridModule,
-    DxButtonModule
+    DxButtonModule,
+    DxNumberBoxModule,
+    DxCalendarModule,
+    DxDateBoxModule
   ],
   declarations: [ ClientesConsultaFchComponent ],
   exports: [ ClientesConsultaFchComponent ],

@@ -65,13 +65,16 @@ namespace BLL_BackEnd
             List<dynamic>  _clientes = Context.Clientes.Join(Context.Movimientos,
             c => new { IdCliente = c.IdCliente  },
             m=> new { IdCliente = m.IdCliente },
-            (c, m) => new { IdCliente=c.IdCliente, FechaRegistro=Context.Movimientos.Where(v=>v.IdCliente==c.IdCliente).Max(l=>l.Fecha), FechaAproximacion=DateTime.Today }).ToList<dynamic>();
+            (c, m) => new { IdCliente=c.IdCliente, Nombre_Completo=c.NombreCompleto, Identificacion=c.NumeroIdentificacion, FechaRegistro=Context.Movimientos.Where(v=>v.IdCliente==c.IdCliente).Max(l=>l.Fecha), FechaAproximacion=DateTime.Today }).ToList<dynamic>();
             _clientes.ForEach(t => {
                 int _id = t.IdCliente;
+                string _Nom = t.Nombre_Completo;
+                int _Idnt = t.Identificacion;
                 var fchMax = Context.Movimientos.Where(n => n.IdCliente == _id).Max(h => h.Fecha);
                 var fchMin = Context.Movimientos.Where(n => n.IdCliente == _id).Min(h => h.Fecha);
                 var fchCnt = Context.Movimientos.Where(n => n.IdCliente == _id).Count();
-                var nw = new { IdCliente=_id, FechaRegistro=fchMax, FechaAproximacion= fchMax.AddDays(fchMax.Subtract(fchMin).TotalDays / fchCnt)};
+                var valPrm = Context.Movimientos.Where(n => n.IdCliente == _id).Sum(m => m.Total) / fchCnt;
+                var nw = new { IdCliente=_id, NombreCompleto = _Nom, Numero_Identificacion = _Idnt, FechaRegistro=fchMax, FechaAproximacion= fchMax.AddDays(fchMax.Subtract(fchMin).TotalDays / fchCnt), AproximadoVenta=valPrm};
                 _clienteFch.Add(nw);
             });
             return _clienteFch.Distinct().ToList();

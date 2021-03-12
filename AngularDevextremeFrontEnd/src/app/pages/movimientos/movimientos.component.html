@@ -2,7 +2,7 @@
   <dx-button [useSubmitBehavior]="false"
       class="button-info"
       text="Informacion de cliente"
-      (onClick)="showInfo(cliente)">
+      (onClick)="showInfo(cliente)" width="250">
   </dx-button>
   <dx-popup
       [width]="900"
@@ -16,9 +16,26 @@
         <dxi-item itemType="group" caption="Listado de clientes">
           <dx-data-grid [dataSource]="_clientes" [showBorders]="true" (onSelectionChanged)="selectionChangedHandler($event)">
               <dxo-selection mode="single"></dxo-selection>
+              <dxo-editing  mode="popup"  [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true" >
+              <dxo-popup title="Registro de clientes" [showTitle]="true" [width]="700" [height]="525" [position]="{ my: 'top', at: 'top', of: window }">
+              </dxo-popup>
+              <dxo-form>
+                  <dxi-item itemType="group" [colCount]="2" [colSpan]="2">
+                      <dxi-item dataField="Id_Cliente" caption="Id Detalle" dataType="number" [visible]="false" ></dxi-item>
+                      <dxi-item dataField="Numero_identificacion" caption="Identificacion" dataType="number" alignment="left"></dxi-item>
+                      <dxi-item dataField="Tipo_Identificacion" caption="Tipo de documento" dataType="number" [allowGrouping]="false">
+                      </dxi-item>
+                      <dxi-item dataField="Nombre_completo" caption="Nombre" dataType="string"></dxi-item>
+                      <dxi-item dataField="Fecha_nacimiento" caption="Fecha" dataType="date"></dxi-item>
+                  </dxi-item>
+              </dxo-form>
+              </dxo-editing>
               <dxi-column dataField="Id_Cliente" caption="Id Detalle" dataType="number" ></dxi-column>
               <dxi-column dataField="Numero_identificacion" caption="Identificacion" dataType="number" alignment="left"></dxi-column>
-              <dxi-column dataField="Tipo_Identificacion" caption="Id Tipo" dataType="number" [allowGrouping]="false"></dxi-column>
+              <dxi-column dataField="Tipo_Identificacion" caption="Id Tipo" dataType="number" [allowGrouping]="false">
+                <dxo-lookup [dataSource]="tipo" displayExpr="Descripcion" valueExpr="Id" caption="Tipo de documento" >
+                </dxo-lookup>
+              </dxi-column>
               <dxi-column dataField="Nombre_completo" caption="Nombre" dataType="string"></dxi-column>    
               <dxi-column dataField="Fecha_nacimiento" caption="Fecha" dataType="date"></dxi-column>    
               <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
@@ -27,20 +44,8 @@
               <dxo-search-panel [visible]="true"></dxo-search-panel>
               <dxo-group-panel [visible]="true"></dxo-group-panel>
               <dxo-selection mode="single"></dxo-selection>
-              <!-- <dxo-summary>
-                <dxi-group-item summaryType="count">
-                </dxi-group-item>
-              </dxo-summary> -->
-              <dxo-editing mode="popup" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
-              </dxo-editing>
-              <!-- <dxo-master-detail
-                [enabled]="true"
-                [template]="'employee-info'">
-              </dxo-master-detail> 
-              <div *dxTemplate="let client of 'Clientes'">                                
-              </div>
-            -->
-              <dxo-export [enabled]="true"></dxo-export>              
+              <dxo-export [enabled]="true"></dxo-export>
+              <dxo-scrolling mode="infinite"></dxo-scrolling>
           </dx-data-grid>
         </dxi-item>                
       </div>
@@ -71,8 +76,6 @@
       <dx-data-grid id="gridContainer" keyExpr="Id" (onSaving)="onSaving($event)" [dataSource]="_datasource" [showBorders]="true" >
         <dxo-editing mode="row" editRowKey="Id" [allowUpdating]="true" [allowDeleting]="true" [allowAdding]="true">
         </dxo-editing>
-        <!-- <dxi-column dataField="Id_Detalle" caption="Consecutivo" dataType="number" [width]="-1" visible="false"></dxi-column>
-        <dxi-column dataField="Id_Movimiento" caption="Indice" dataType="number" alignment="left" [width]="-1" visible="false"></dxi-column> -->
         <dxi-column dataField="Id_Item" caption="Producto" [width]="500" dataType="number" [visible]="true"> 
           <dxo-lookup [dataSource]="_inventario" valueExpr="Id_Item" [displayExpr]="getDisplayExpr"></dxo-lookup>
         </dxi-column>
@@ -89,7 +92,8 @@
               summaryType="sum">
             </dxi-total-item>
         </dxo-summary>
-      </dx-data-grid>      
+        <dxo-scrolling mode="infinite"></dxo-scrolling>
+      </dx-data-grid>
     </dxi-item>    
     </dx-form>
   </form>

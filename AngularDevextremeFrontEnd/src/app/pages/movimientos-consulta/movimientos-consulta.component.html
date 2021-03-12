@@ -1,42 +1,56 @@
 <div id="app-container">
-    <dx-item></dx-item>
-    <dx-data-grid id="dataGrid"
+  <dx-item itemType="group" caption="Opciones de consulta" [colCount]="2">
+    <dx-calendar #calendar
+    id="calendar-container" 
+    [disabled]="false"
+    [(value)]="currentValue"
+    zoomLevel="year">
+  </dx-calendar>
+  <dx-select-box 
+    [items]="n"
+    placeholder="Seleccione el año de consulta" width="400"
+    [showClearButton]="true" (onValueChanged)="change($event)">
+  </dx-select-box>
+  <dx-button
+    stylingMode="contained"
+    text="Consultar"
+    type="normal"
+    [width]="120"
+    (onClick)="query()">
+  </dx-button>
+  </dx-item>
+    <dx-item itemType="group" caption="Consulta de totales de ventas" [colCount]="1">
+      <dx-data-grid id="dataGrid"
       [dataSource]="_movimientos"
       keyExpr="idItem"
       [allowColumnResizing]="true"
       [columnAutoWidth]="true"
       [allowColumnReordering]="true">
-      <dxi-column dataField="idItem"></dxi-column>
-      <dxi-column dataField="descripcion"></dxi-column>
-      <dxi-column dataField="total"></dxi-column>
-      <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-      <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
-      <dxo-filter-row [visible]="true"></dxo-filter-row>
-      <dxo-search-panel [visible]="true"></dxo-search-panel>
-      <dxo-group-panel [visible]="true"></dxo-group-panel>
-      <dxo-selection mode="single"></dxo-selection>
-      <dxo-summary>
-        <dxi-group-item
-          summaryType="count">
-        </dxi-group-item>
-      </dxo-summary>
-      <dxo-editing
-        mode="popup"
-        [allowUpdating]="true"
-        [allowDeleting]="true"
-        [allowAdding]="true">
-      </dxo-editing>
-      <!-- <dxo-master-detail
-        [enabled]="true"
-        [template]="'employee-info'">
-      </dxo-master-detail>
-      <div *dxTemplate="let employee of 'employee-info'">
-        <img class="employee-photo" [src]="employee.data.Photo">
-        <p class="employee-notes">{{ employee.data.Notes }}</p>
-      </div>
-      <dxo-export [enabled]="true"></dxo-export> -->
-    </dx-data-grid>
-    <!-- <p id="selected-employee" *ngIf="selectedEmployee">
-      Selected employee: {{ selectedEmployee.FullName }}
-    </p> -->
+      <dxi-column dataField="idItem" caption="Consecutivo de producto"></dxi-column>
+      <dxi-column dataField="descripcion" caption="Descripcion producto"></dxi-column>
+      <dxi-column dataField="total" caption="Total venta del producto" format="currency"></dxi-column>
+      <dxo-column-chooser [enabled]="false"></dxo-column-chooser>
+        <dxo-column-fixing [enabled]="true"></dxo-column-fixing>
+        <dxo-filter-row [visible]="true"></dxo-filter-row>
+        <dxo-search-panel [visible]="true"></dxo-search-panel>
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-selection mode="single"></dxo-selection>
+        <dxo-summary>
+          <dxi-group-item
+            summaryType="count">
+          </dxi-group-item>
+        </dxo-summary>
+        <dxo-editing>
+        </dxo-editing>
+        <dxo-export [enabled]="true"></dxo-export> 
+        <dxo-summary>
+          <dxi-total-item
+              column="total"
+              summaryType="sum"
+              valueFormat="currency"              
+              >
+          </dxi-total-item>
+        </dxo-summary>
+      </dx-data-grid>
+    </dx-item>
   </div>

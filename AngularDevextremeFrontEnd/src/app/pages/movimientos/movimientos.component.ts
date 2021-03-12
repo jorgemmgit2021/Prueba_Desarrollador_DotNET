@@ -50,10 +50,6 @@ export class MovimientosComponent {
     vService.getFromAsync('').subscribe(result=>{this._clientes=result; });
     this.tipo=[{Id:1,Descripcion:'Cédula de ciudadanía'},{Id:2,Descripcion:'Otros'}];
     this.calculateCellValue = this.calculateCellValue.bind(this);
-    console.log(this.venta.inventario);
-    console.warn(this._inventario);
-    console.log(this.venta.cliente);
-    console.warn(this._clientes);
     this._datasource = [];
   }
 
@@ -93,36 +89,20 @@ export class MovimientosComponent {
     return `Producto: ${item.Descripcion} Precio:${item.Precio} Stock:${item.Cantidad_stock}`;
 }
 
-  showInfo(employee){
+  showInfo(cliente){
+    debugger
     this.popupVisible = true;
-    this.vService.getFromAsync('1234578').toPromise().then(resp=>{this._clientes = resp;});
+    this.vService.getFromAsync(cliente.Numero_identificacion).toPromise().then(resp=>{this._clientes = resp;});
   }
 
   selectionChanged(data: any){
-    debugger
     this.cliente = data.value;
   }
   selectionChangedHandler(e) {
     this.cliente = e.selectedRowsData[0];
 }
-  private getCliente(e){
-    console.log(e);
-    // this.cliente = this.vService.getCliente(value);
-    // console.log(this.cliente);
-    // return this.cliente===null;
-  }
   collapsed=false;
     async onSubmit(e){
-      // let n:VentasService = eval('new _services_ventas_service__WEBPACK_IMPORTED_MODULE_5__.VentasService()');
-      // var z = n.getFromAsync(e.value);
-      // console.warn('"#$%&');
-      // console.log(z);
-      // debugger
-      // if(z!=undefined){
-      //   $('[name=Tipo_Identificacion]').prop('value','456');
-      //   $('[name=Nombre_completo]').prop('value','weretryt');
-      //   $('[name=Fecha_nacimiento]').prop('value','01/01/2005');
-      // }
       e.preventDefault()
       var _Total = 0;
       this._datasource.forEach(h=>{

@@ -1,1 +1,14 @@
-<p>clientes-consulta-frecuencia works!</p>
+<dx-data-grid id="gridContainer" #grid
+        [dataSource]="InfoCliente"
+        [showColumnLines]="false"
+        [showRowLines]="false"
+        [showBorders]="false"
+        [rowAlternationEnabled]="false">
+    <dxi-column dataField="idCliente" caption="Consecutivo" [width]="100"></dxi-column>
+    <dxi-column dataField="numero_Identificacion" caption="Numero de documento" [groupIndex]="0"></dxi-column>
+    <dxi-column dataField="nombreCompleto" caption="Nombre Completo"></dxi-column>
+    <dxi-column dataField="fechaRegistro" caption="Fecha de compra mas reciente" format="date"></dxi-column>
+    <dxi-column dataField="fechaAproximacion" caption="Fecha de proyección de compra" format="date"></dxi-column>
+    <dxi-column dataField="aproximadoVenta" [width]="200" caption="Valor de compra promedio" format="currency"></dxi-column>
+    <dxo-grouping #expand [autoExpandAll]="false"></dxo-grouping>
+</dx-data-grid>

@@ -38,8 +38,8 @@ export class VentasService {
   public getAll():Observable<Movimientos>{    
     return this.httpClient.get<Movimientos>(`${this.baseURL}`);
   }
-  public getAllMovimientos():Observable<MovimientosTotal[]>{    
-    return this.httpClient.get<MovimientosTotal[]>(`${this.totalesURL}?periodo=2020`);
+  public getAllMovimientos(per:number):Observable<MovimientosTotal[]>{
+    return this.httpClient.get<MovimientosTotal[]>(`${this.totalesURL}?periodo=${per}`);
   }
   getAllInventarios():Observable<Inventarios[]>{
     return this.httpClient.get<Inventarios[]>(`${this._URLInventarios}`);
@@ -57,8 +57,6 @@ export class VentasService {
   public async Guardarventa(_venta:Venta):Promise<Venta>{
     var _result:boolean = false;
     return this.httpClient.post<Venta>(`${this.baseURL}`, _venta).toPromise();
-    // .toPromise().then(data=>{_result = data.movimiento.Id_Movimiento!=0;});
-    // return _result;
   }
 
 }

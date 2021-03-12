@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API_BackEnd", "API_BackEnd\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL_BackEnd", "BLL_BackEnd\BLL_BackEnd.csproj", "{049E8D69-C098-4A98-BC85-7CC45E70CED5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Angular_FrontEnd", "Angular_FrontEnd\Angular_FrontEnd.csproj", "{176F9A7B-BE3F-450F-A9E5-CB69DA42E140}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{049E8D69-C098-4A98-BC85-7CC45E70CED5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{049E8D69-C098-4A98-BC85-7CC45E70CED5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{049E8D69-C098-4A98-BC85-7CC45E70CED5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{176F9A7B-BE3F-450F-A9E5-CB69DA42E140}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{176F9A7B-BE3F-450F-A9E5-CB69DA42E140}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{176F9A7B-BE3F-450F-A9E5-CB69DA42E140}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{176F9A7B-BE3F-450F-A9E5-CB69DA42E140}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

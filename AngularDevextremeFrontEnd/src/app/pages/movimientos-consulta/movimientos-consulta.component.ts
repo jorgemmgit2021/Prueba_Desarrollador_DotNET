@@ -2,14 +2,13 @@ import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DxFormModule } from 'devextreme-angular';
+import { DxButtonModule, DxFormModule, DxSelectBoxModule, DxDataGridModule, DxCalendarModule } from 'devextreme-angular';
 import { Observable } from 'rxjs';
 import { MovimientosTotal } from 'src/app/models/-movimientos-total';
 import { VentasService } from 'src/app/services/ventas.service';
 import { environment } from 'src/environments/environment';
 import ArrayStore from "devextreme/data/array_store";
 import DataSource from "devextreme/data/data_source";
-import { DxDataGridModule } from 'devextreme-angular/ui/data-grid';
 
 @Component({
   selector: 'app-movimientos-consulta',
@@ -20,17 +19,24 @@ export class MovimientosConsultaComponent implements OnInit {
   public _movimientos$:Observable<MovimientosTotal[]>;
   private _vService:VentasService;
   public _movimientos:MovimientosTotal[]=[];
-  employees:MovimientosTotal[] = [];
-
+  public n:number[] = [];
+  i=0;
+  currentValue:Date=new Date();
   constructor(vService:VentasService){    
-    this.employees = vService.getEmployees();
     this._vService = vService;
-    this._movimientos$=vService.getAllMovimientos();
-    this._movimientos$.subscribe(result=>{this._movimientos = result; })
-    console.log('In');
+    for(this.i=1995;this.i<2051;this.i++){this.n=[...this.n,this.i]}
+    this.i=null;
   }
-
-  ngOnInit(): void {    
+  query=()=>{
+    this._movimientos$=this._vService.getAllMovimientos(this.i||this.currentValue.getFullYear());
+    this._movimientos$.subscribe(result=>{this._movimientos = result; });
+    console.log('In');
+    this.i = null;
+  }
+  change=(e)=>{
+    this.i = e.value;
+  }
+  ngOnInit(): void {
   }
 }
 @NgModule({
@@ -38,7 +44,10 @@ export class MovimientosConsultaComponent implements OnInit {
     CommonModule,
     RouterModule,
     DxFormModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxButtonModule,
+    DxSelectBoxModule,
+    DxCalendarModule
   ],
   declarations: [ MovimientosConsultaComponent ],
   exports: [ MovimientosConsultaComponent ],
